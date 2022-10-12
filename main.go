@@ -8,8 +8,8 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/saki-oikawa-lvgs/graph"
-	"github.com/saki-oikawa-lvgs/graph/generated"
+	"github.com/saki-oikawa-lvgs/gqlgen_tutorial/graph"
+	"github.com/saki-oikawa-lvgs/gqlgen_tutorial/graph/generated"
 
 	_ "github.com/lib/pq"
 )

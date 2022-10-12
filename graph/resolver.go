@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/[リポジトリ]/graph/model"
+	"github.com/saki-oikawa-lvgs/gqlgen_tutorial/graph/model"
 	_ "github.com/lib/pq"
 )
 
