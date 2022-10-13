@@ -1,12 +1,16 @@
+#ベースのDockerイメージをgolangで指定
 FROM golang:latest
+EXPOSE 5000
 
-ENV APP_ROOT /app
+#ワークディレクトリを設定する
+WORKDIR /go
+#ホストのディレクトリを/go配下にコピー
+ADD . /go
+#GOPATHの設定
+ENV GOPATH=
+# ENV GOPATH $GOPATH:$HOME/go
+# RUN go get github.com/jinzhu/gorm
+# RUN go get github.com/lib/pq
 
-RUN mkdir $APP_ROOT
-WORKDIR $APP_ROOT
-
-COPY ./ $APP_ROOT
-
-EXPOSE 8080
-
-CMD ["go", "run", "main.go"]
+#main.goを実行
+CMD ["go", "run", "server.go"]
