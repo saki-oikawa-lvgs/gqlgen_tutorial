@@ -1,0 +1,11 @@
+query TweetById ($id: ID!) {
+  Tweet(id: $id) {
+    id
+    body
+    date
+    Author {
+        id
+        username
+    }
+  }
+}

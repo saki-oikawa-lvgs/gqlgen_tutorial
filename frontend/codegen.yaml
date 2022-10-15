@@ -1,0 +1,9 @@
+generates:
+  ./graphql/generated.ts:
+  schema: http://localhost:3000/frontend
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher: fetch
