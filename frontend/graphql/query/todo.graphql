@@ -1,15 +1,13 @@
-query getTodo {
-  todos {
+query getTodos{
+  getTodos{
     id
     text
   }
 }
 
-mutation createTodo {
-  createTodo(input: { text: "todo", userId: "1" }) {
-    user {
-      id
-    }
+mutation createTodo{
+  createTodo( text:"test"  ) {
+    id
     text
     done
   }

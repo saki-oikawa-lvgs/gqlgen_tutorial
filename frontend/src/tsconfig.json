@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../webpack.config.ts", "../graphql/dist/client.ts", "../webpack.config.ts", "../graphql/dist/client.ts", "../graphql/client.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../graphql/dist/client.ts", "../webpack.config.ts", "../graphql/dist/client.ts", "../webpack.config.ts", "../graphql/dist/client.ts", "../graphql/client.ts"],
   "exclude": ["node_modules"]
 }

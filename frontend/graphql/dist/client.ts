@@ -1,7 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import * as Dom from 'graphql-request/dist/types.dom';
 import gql from 'graphql-tag';
-
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -19,21 +18,34 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   createTodo: Todo;
+  deleteTodo: Todo;
+  updateTodo: Todo;
 };
 
 
 export type MutationCreateTodoArgs = {
-  input: NewTodo;
+  text: Scalars['String'];
 };
 
-export type NewTodo = {
-  text: Scalars['String'];
-  userId: Scalars['String'];
+
+export type MutationDeleteTodoArgs = {
+  todoId: Scalars['ID'];
+};
+
+
+export type MutationUpdateTodoArgs = {
+  input: TodoInput;
 };
 
 export type Query = {
   __typename?: 'Query';
-  todos: Array<Todo>;
+  getTodo: Todo;
+  getTodos: Array<Todo>;
+};
+
+
+export type QueryGetTodoArgs = {
+  todoId: Scalars['ID'];
 };
 
 export type Todo = {
@@ -41,40 +53,37 @@ export type Todo = {
   done: Scalars['Boolean'];
   id: Scalars['ID'];
   text: Scalars['String'];
-  user: User;
 };
 
-export type User = {
-  __typename?: 'User';
+export type TodoInput = {
+  done: Scalars['Boolean'];
   id: Scalars['ID'];
-  name: Scalars['String'];
+  text: Scalars['String'];
 };
 
-export type GetTodoQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTodoQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, text: string }> };
+export type GetTodosQuery = { __typename?: 'Query', getTodos: Array<{ __typename?: 'Todo', id: string, text: string }> };
 
 export type CreateTodoMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'Todo', text: string, done: boolean, user: { __typename?: 'User', id: string } } };
+export type CreateTodoMutation = { __typename?: 'Mutation', createTodo: { __typename?: 'Todo', id: string, text: string, done: boolean } };
 
 
-export const GetTodoDocument = gql`
-    query getTodo {
-  todos {
+export const GetTodosDocument = gql`
+    query getTodos {
+  getTodos {
     id
     text
   }
-
+}
     `;
 export const CreateTodoDocument = gql`
     mutation createTodo {
-  createTodo(input: {text: "todo", userId: "1"}) {
-    user {
-      id
-    }
+  createTodo(text: "test") {
+    id
     text
     done
   }
@@ -88,8 +97,8 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    getTodo(variables?: GetTodoQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTodoQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetTodoQuery>(GetTodoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTodo', 'query');
+    getTodos(variables?: GetTodosQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetTodosQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetTodosQuery>(GetTodosDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTodos', 'query');
     },
     createTodo(variables?: CreateTodoMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateTodoMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateTodoMutation>(CreateTodoDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createTodo', 'mutation');
