@@ -46,13 +46,13 @@ func main() {
         Database: db,
     }
 		
-		srv2 := c.Handler(srv)
+		corsSrv := c.Handler(srv)
 
 	
 
     http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 		
-    http.Handle("/query", common.CreateContext(customCtx, srv2))
+    http.Handle("/query", common.CreateContext(customCtx, corsSrv))
 		// http.Handle("/query", c.Handler(customCtx, srv))
 		// http.Handle("/query", c.Handler(srv))
 

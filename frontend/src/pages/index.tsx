@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   return (
     <div style={{ margin: "0 auto", width: "1000px" }}>
       {data?.getTodos?.map((todo:any) => (
-        <div key={todo.id}>
+        <div key={todo.text}>
           <h1>{todo.text}</h1>
           <p>id:{todo.id}</p>
           <p>text:{todo.text}</p>
