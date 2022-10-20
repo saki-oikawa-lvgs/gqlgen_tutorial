@@ -5,11 +5,7 @@ type Todo {
   done: Boolean!
 }
 
-input TodoInput {
-  id: ID!
-  text: String!
-  done: Boolean!
-}
+
 
 type Mutation {
   createTodo(text: String!): Todo!

@@ -4,7 +4,7 @@ import { ApolloProvider } from "@apollo/client";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const link = createHttpLink({
-    uri: "http://localhost:8080/query",
+    uri: "http://localhost:5050/graphql",
     credentials: "include",
   });
   const client = new ApolloClient({
