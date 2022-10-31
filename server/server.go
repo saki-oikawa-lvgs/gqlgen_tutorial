@@ -10,15 +10,33 @@ import (
     "log"
     "net/http"
     "os"
+    "encoding/json"
+
 		// "github.com/gorilla/mux"
 
 
     "github.com/99designs/gqlgen/graphql/handler"
     "github.com/99designs/gqlgen/graphql/playground"
 )
+type Ping struct {
+  Status int 
+  Rssult string
+}
 
 const defaultPort = "8080"
+func pingHandler(w http.ResponseWriter, r *http.Request) {
+  ping := Ping{http.StatusOK, "ok"}
 
+  res, err := json.Marshal(ping)
+
+  if err != nil {
+      http.Error(w, err.Error(), http.StatusInternalServerError)
+      return
+  }
+
+  w.Header().Set("Content-Type", "application/json")
+  w.Write(res)
+}
 
 func main() {
     port := os.Getenv("PORT")
@@ -48,11 +66,11 @@ func main() {
 		
 		corsSrv := c.Handler(srv)
 
-	
-
     http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 		
     http.Handle("/query", common.CreateContext(customCtx, corsSrv))
+    http.HandleFunc("/ping", pingHandler)
+
 		// http.Handle("/query", c.Handler(customCtx, srv))
 		// http.Handle("/query", c.Handler(srv))
 

@@ -9,11 +9,8 @@ type Todo {
 
 type Mutation {
   createTodo(text: String!): Todo!
-  updateTodo(input: TodoInput!): Todo!
-  deleteTodo(todoId: ID!): Todo!
 }
 
 type Query {
   getTodos: [Todo!]!
-  getTodo(todoId: ID!): Todo!
 }

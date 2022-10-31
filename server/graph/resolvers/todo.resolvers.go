@@ -28,32 +28,6 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, text string) (*custom
 	return todo, nil
 }
 
-// UpdateTodo is the resolver for the updateTodo field.
-func (r *mutationResolver) UpdateTodo(ctx context.Context, input customTypes.TodoInput) (*customTypes.Todo, error) {
-	context := common.GetContext(ctx)
-	todo := &customTypes.Todo{
-		ID:   input.ID,
-		Text: input.Text,
-		Done: input.Done,
-	}
-	err := context.Database.Save(&todo).Error
-	if err != nil {
-		return nil, err
-	}
-	return todo, nil
-}
-
-// DeleteTodo is the resolver for the deleteTodo field.
-func (r *mutationResolver) DeleteTodo(ctx context.Context, todoID string) (*customTypes.Todo, error) {
-	context := common.GetContext(ctx)
-	var todo *customTypes.Todo
-	err := context.Database.Where("id = ?", todoID).Delete(&todo).Error
-	if err != nil {
-		return nil, err
-	}
-	return todo, nil
-}
-
 // GetTodos is the resolver for the getTodos field.
 func (r *queryResolver) GetTodos(ctx context.Context) ([]*customTypes.Todo, error) {
 	context := common.GetContext(ctx)
@@ -65,7 +39,42 @@ func (r *queryResolver) GetTodos(ctx context.Context) ([]*customTypes.Todo, erro
 	return todos, nil
 }
 
-// GetTodo is the resolver for the getTodo field.
+func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
+
+// Query returns generated.QueryResolver implementation.
+func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
+
+type mutationResolver struct{ *Resolver }
+type queryResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//    it when you're done.
+//  - You have helper methods in this file. Move them out to keep these resolver files clean.
+// func (r *mutationResolver) UpdateTodo(ctx context.Context, input customTypes.TodoInput) (*customTypes.Todo, error) {
+// 	context := common.GetContext(ctx)
+// 	todo := &customTypes.Todo{
+// 		ID:   input.ID,
+// 		Text: input.Text,
+// 		Done: input.Done,
+// 	}
+// 	err := context.Database.Save(&todo).Error
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return todo, nil
+// }
+// func (r *mutationResolver) DeleteTodo(ctx context.Context, todoID string) (*customTypes.Todo, error) {
+// 	context := common.GetContext(ctx)
+// 	var todo *customTypes.Todo
+// 	err := context.Database.Where("id = ?", todoID).Delete(&todo).Error
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return todo, nil
+// }
 func (r *queryResolver) GetTodo(ctx context.Context, todoID string) (*customTypes.Todo, error) {
 	// context := common.GetContext(ctx)
 	var todo *customTypes.Todo
@@ -75,12 +84,3 @@ func (r *queryResolver) GetTodo(ctx context.Context, todoID string) (*customType
 	// }
 	return todo, nil
 }
-
-// Mutation returns generated.MutationResolver implementation.
-func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
-
-// Query returns generated.QueryResolver implementation.
-func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
-
-type mutationResolver struct{ *Resolver }
-type queryResolver struct{ *Resolver }
